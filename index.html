@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎯 Roda a Roda – Treinamento</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Botão flutuante SEMPRE presente: alterna Claro/Galáxia em qualquer tela -->
+  <button id="themeToggleFab" class="btn theme-fab" aria-pressed="false" title="Alternar tema (Claro / Galáxia)">🌞 Claro</button>
+
+  <main id="app">
+    <!-- TELA INICIAL -->
+    <section id="start-screen" class="screen active">
+      <div class="card">
+        <h1>🎯 Roda a Roda – Treinamento</h1>
+        <p class="subtitle">Gire a roda (custa 20), adivinhe as letras e feche a frase!</p>
+
+        <div class="form-row">
+          <label for="playerName">Seu nome</label>
+          <input id="playerName" type="text" placeholder="Digite seu nome" />
+        </div>
+
+        <details class="rules">
+          <summary>Regras do jogo</summary>
+          <ul>
+            <li>Você começa com <strong>500</strong> pontos de saldo e cada giro custa <strong>20</strong> (desconta do saldo total).</li>
+            <li>Gire a roda e tente acertar <strong>consoantes</strong>. Cada ocorrência soma o valor sorteado ao saldo da rodada.</li>
+            <li>Você pode comprar <strong>vogais</strong> (A, E, I, O, U) por <strong>500</strong> pontos do saldo da rodada.</li>
+            <li><strong>Falência</strong>: perde <strong>2.000</strong> do saldo da rodada (não fica negativo; mínimo 0).</li>
+            <li>Quando souber a resposta, clique em <em>Chutar Frase</em> para encerrar a rodada. O saldo da rodada soma ao seu saldo total.</li>
+          </ul>
+        </details>
+
+        <button id="btnStart" class="btn primary">Começar</button>
+      </div>
+    </section>
+
+    <!-- TELA DE JOGO -->
+    <section id="game-screen" class="screen">
+      <div class="card">
+        <div class="topbar">
+          <div class="stats">
+            <span>👤 <strong id="uiPlayerName">Jogador</strong></span>
+            <span>Rodada: <strong id="uiRound">1</strong>/<span id="uiTotalRounds">5</span></span>
+            <span>Saldo: <strong id="uiBank">500</strong></span>
+            <span>Saldo da Rodada: <strong id="uiRoundScore">0</strong></span>
+          </div>
+          <div class="actions">
+            <!-- Botão de tema na topbar (opcional). Se sumir, o FAB garante o controle -->
+            <button id="themeToggle" class="btn theme-switch" aria-pressed="false" title="Alternar tema (Claro / Galáxia)">🌞 Claro</button>
+          </div>
+        </div>
+
+        <div class="layout">
+          <!-- Painel da Roda -->
+          <aside class="wheel-panel">
+            <div class="wheel-wrapper">
+              <svg id="wheel" viewBox="0 0 100 100" aria-label="Roda de pontuação"></svg>
+              <div id="pointer" aria-hidden="true"></div>
+            </div>
+            <div id="spinResult" class="spin-result" aria-live="polite"></div>
+
+            <div class="controls">
+              <button id="btnSpin" class="btn spin">Girar Roda</button>
+              <small class="subtitle">Custo por giro: 20</small>
+
+              <div class="letter-actions">
+                <label for="vowelSelect">Vogal</label>
+                <select id="vowelSelect">
+                  <option value="">—</option>
+                  <option>A</option>
+                  <option>E</option>
+                  <option>I</option>
+                  <option>O</option>
+                  <option>U</option>
+                </select>
+                <button id="btnBuyVowel" class="btn">Comprar Vogal (500)</button>
+              </div>
+
+              <div class="guess-panel">
+                <button id="btnGuess" class="btn success">Chutar Frase</button>
+                <div id="guessPanel" class="hidden">
+                  <input id="guessInput" type="text" placeholder="Digite a frase completa" />
+                  <button id="btnSubmitGuess" class="btn success">Confirmar</button>
+                  <button id="btnCancelGuess" class="btn">Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Painel do Quadro -->
+          <section class="board-panel">
+            <div class="category">Categoria: <strong id="uiCategory">—</strong></div>
+            <div id="board" class="board" aria-live="polite"></div>
+            <div id="keyboard" class="keyboard" aria-label="Teclado de letras"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- TELA FINAL -->
+    <section id="end-screen" class="screen">
+      <div class="card">
+        <h2>🏁 Resultado Final</h2>
+        <p>Parabéns, <strong id="finalPlayer">Jogador</strong>!</p>
+        <p>Seu saldo final foi: <strong id="finalScore">0</strong></p>
+        <div id="localRanking"></div>
+        <button id="btnPlayAgain" class="btn primary">Jogar Novamente</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
